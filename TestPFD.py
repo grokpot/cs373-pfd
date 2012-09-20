@@ -21,7 +21,7 @@ To test the program:
 import StringIO
 import unittest
 
-from PFD import pfd_read_metadata, pfd_read_lines
+from PFD import pfd_read_metadata, pfd_read_lines, pfd_print
 
 # -----------
 # TestPFD
@@ -130,25 +130,38 @@ class TestPFD (unittest.TestCase) :
     def test_print_1 (self) :
         w = StringIO.StringIO()
         a = [0, 0, 0, 0]
-        collatz_print(w, a)
-        self.assert_(w.getvalue() == "0 0 0 0\n")
+        pfd_print(w, a)
+        self.assert_(w.getvalue() == "0 0 0 0")
 
-    def test_print_1 (self) :
+    def test_print_2 (self) :
         w = StringIO.StringIO()
         a = [1, 2, 3, 4]
-        collatz_print(w, a)
-        self.assert_(w.getvalue() == "1 2 3 4\n")
+        pfd_print(w, a)
+        self.assert_(w.getvalue() == "1 2 3 4")
 
-    def test_print_1 (self) :
+    def test_print_3 (self) :
         w = StringIO.StringIO()
-        a = [100, 100, 100, 100, 100, 100, 100, 100]
-        collatz_print(w, a)
-        self.assert_(w.getvalue() == "100 100 100 100 100 100 100 100\n")
+        a = [1]
+        pfd_print(w, a)
+        self.assert_(w.getvalue() == "1")
 
     def test_print_4 (self) :
         w = StringIO.StringIO()
-        collatz_print(w, 1, 1, 1)
-        self.assert_(w.getvalue() == "1 1 1\n")
+        a = [1, 2]
+        pfd_print(w, a)
+        self.assert_(w.getvalue() == "1 2")
+
+    def test_print_5 (self) :
+        w = StringIO.StringIO()
+        a = [100, 100, 100, 100, 100, 100, 100, 100]
+        pfd_print(w, a)
+        self.assert_(w.getvalue() == "100 100 100 100 100 100 100 100")
+
+    def test_print_6 (self) :
+        w = StringIO.StringIO()
+        a = []
+        pfd_print(w, a)
+        self.assert_(w.getvalue() == "")
 
     # -----
     # solve
