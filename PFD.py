@@ -71,6 +71,7 @@ def pfd_read_line (r, vertex_list) :
 
 
 def pfd_build_independents(vertex_list, independent_list):
+    # TODO: write method description
     assert len(vertex_list) > 0
     assert len(independent_list) > 0
 
@@ -101,25 +102,24 @@ def pfd_build_output(vertex_list, independent_list):
     cleared = False
     while cleared == False:
 
-        # Find the lowest vertex in independent_list (the lowest task with no/satisfied predecessors)
-        independent = -1
-        for index, vertex in enumerate(independent_list):
-            if vertex == INDEPENDENT:
-                independent = index
-                output_list.append(independent)
+        # Find the lowest task in independent_list (the lowest task with no/satisfied predecessors)
+        task = -1
+        for index, status in enumerate(independent_list):
+            if status == INDEPENDENT:
+                task = index
+                output_list.append(task)
                 independent_list[index] = ADDED
 
                 # Iterate through vertex list and remove dependency from other tasks' predecessors lists
                 for index, pred_list in enumerate(vertex_list):
                     try:
                         # Remove the dependency
-                        pred_list.remove(vertex)
+                        pred_list.remove(task)
 
                         # If the task has no more predecessors
                         if pred_list == []:
                             # Add it to the independent list & sort
-                            independent_list[vertex] = 1
-                            independent_list.sort()
+                            independent_list[index] = 1
 
                     except Exception:
                         pass
@@ -261,7 +261,9 @@ def PFD_solve (r, w) :
 
     # Read vertex data and build graph
     for line in num_lines:
-        pfd_read_line(r, vertex_list, indpendent_list)
+        pfd_read_line(r, vertex_list)
+
+    # TODO: call build_independent
 
     # Build output
     output_list = pfd_build_output(vertex_list, independent_list)
