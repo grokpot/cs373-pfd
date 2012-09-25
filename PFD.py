@@ -104,29 +104,32 @@ def pfd_build_output(vertex_list, independent_list):
 
         # Find the lowest task in independent_list (the lowest task with no/satisfied predecessors)
         task = -1
-        # TODO: use start parameter for enumerate to bypass 0 index
-        independent_index = -1
-        for status in independent_list:
-            independent_index += 1
-            if status == INDEPENDENT:
-                task = independent_index
-                output_list.append(task)
-                independent_list[independent_index] = ADDED
 
-                # Iterate through vertex list and remove dependency from other tasks' predecessors lists
-                for vertex_index, pred_list in enumerate(vertex_list):
-                    try:
-                        # Remove the dependency
-                        pred_list.remove(task)
+        try:
+            # Finds the lowest independent index
+            task = independent_list.index(INDEPENDENT)
+# TODO: use start parameter for enumerate to bypass 0 index
+#        for independent_index, status in enumerate(independent_list):
+#            if status == INDEPENDENT:
+#                task = independent_index
+            output_list.append(task)
+            independent_list[task] = ADDED
 
-                        # If the task has no more predecessors
-                        if pred_list == []:
-                            # Add it to the independent list & sort
-                            independent_list[vertex_index] = 1
-                            independent_index = 0
-                    except Exception:
-                        pass
+            # Iterate through vertex list and remove dependency from other tasks' predecessors lists
+            for vertex_index, pred_list in enumerate(vertex_list):
+                try:
+                    # Remove the dependency
+                    pred_list.remove(task)
 
+                    # If the task has no more predecessors
+                    if pred_list == []:
+                        # Add it to the independent list & sort
+                        independent_list[vertex_index] = 1
+                except Exception:
+                    pass
+        except:
+            # TODO: do something here
+            pass
         if DEPENDENT not in independent_list and INDEPENDENT not in independent_list:
             cleared = True
 

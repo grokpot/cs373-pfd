@@ -232,7 +232,7 @@ class TestPFD (unittest.TestCase) :
         r = StringIO.StringIO("5 4\n3 2 1 5\n2 2 5 3\n4 1 3\n5 1 1\n")
         w = StringIO.StringIO()
         pfd_solve(r, w)
-        self.assert_(w.getvalue() == "1 5 3 2 4\n")
+        self.assert_(w.getvalue() == "1 5 3 2 4")
 
 # ----
 # main
