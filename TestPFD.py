@@ -21,7 +21,7 @@ To test the program:
 import StringIO
 import unittest
 
-from PFD import pfd_read_metadata, pfd_read_line, pfd_print, pfd_build_independents, pfd_build_output
+from PFD import pfd_read_metadata, pfd_read_line, pfd_print, pfd_build_independents, pfd_build_output, pfd_solve
 
 # -----------
 # TestPFD
@@ -168,37 +168,53 @@ class TestPFD (unittest.TestCase) :
         self.assert_(independent_list   == [-1, -1, -1, -1, -1, -1])
         self.assert_(output_list        == [0, 1, 2, 3, 4, 5])
 
+    def test_build_output3 (self) :
+        vertex_list = [[], [2,4], [], [1,2,4], [2]]
+        independent_list    = [1, 0, 1, 0, 0]
+        output_list = pfd_build_output(vertex_list, independent_list)
+        self.assert_(vertex_list        == [[], [], [], [], []])
+        self.assert_(independent_list   == [-1, -1, -1, -1, -1])
+        self.assert_(output_list        == [0, 2, 4, 1, 3])
+
+    def test_build_output3 (self) :
+        vertex_list = [[], [], [3,5], [1,5], [3], [1]]
+        independent_list    = [1, 1, 0, 0, 0, 0]
+        output_list = pfd_build_output(vertex_list, independent_list)
+        self.assert_(vertex_list        == [[], [], [], [], [], []])
+        self.assert_(independent_list   == [-1, -1, -1, -1, -1, -1])
+        self.assert_(output_list        == [0, 1, 5, 3, 2, 4])
+
     # -----
     # print
     # -----
 
     def test_print_1 (self) :
         w = StringIO.StringIO()
-        a = [0, 0, 0, 0]
+        a = [0, 0, 0, 0, 0]
         pfd_print(w, a)
         self.assert_(w.getvalue() == "0 0 0 0")
 
     def test_print_2 (self) :
         w = StringIO.StringIO()
-        a = [1, 2, 3, 4]
+        a = [0, 1, 2, 3, 4]
         pfd_print(w, a)
         self.assert_(w.getvalue() == "1 2 3 4")
 
     def test_print_3 (self) :
         w = StringIO.StringIO()
-        a = [1]
+        a = [0, 1]
         pfd_print(w, a)
         self.assert_(w.getvalue() == "1")
 
     def test_print_4 (self) :
         w = StringIO.StringIO()
-        a = [1, 2]
+        a = [0, 1, 2]
         pfd_print(w, a)
         self.assert_(w.getvalue() == "1 2")
 
     def test_print_5 (self) :
         w = StringIO.StringIO()
-        a = [100, 100, 100, 100, 100, 100, 100, 100]
+        a = [0, 100, 100, 100, 100, 100, 100, 100, 100]
         pfd_print(w, a)
         self.assert_(w.getvalue() == "100 100 100 100 100 100 100 100")
 
@@ -212,23 +228,11 @@ class TestPFD (unittest.TestCase) :
         # solve
         # -----
 
-#    def test_solve1 (self) :
-#        r = StringIO.StringIO("1 10\n100 200\n201 210\n900 1000\n")
-#        w = StringIO.StringIO()
-#        collatz_solve(r, w)
-#        self.assert_(w.getvalue() == "1 10 20\n100 200 125\n201 210 89\n900 1000 174\n")
-#
-#    def test_solve2 (self) :
-#        r = StringIO.StringIO("1 1\n2 2\n1 2\n2 1\n")
-#        w = StringIO.StringIO()
-#        collatz_solve(r, w)
-#        self.assert_(w.getvalue() == "1 1 1\n2 2 2\n1 2 2\n2 1 2\n")
-#
-#    def test_solve3 (self) :
-#        r = StringIO.StringIO("1 9999\n9999 10001\n99999 100000\n999999 1000000\n")
-#        w = StringIO.StringIO()
-#        collatz_solve(r, w)
-#        self.assert_(w.getvalue() == "1 9999 262\n9999 10001 180\n99999 100000 227\n999999 1000000 259\n")
+    def test_solve1 (self) :
+        r = StringIO.StringIO("5 4\n3 2 1 5\n2 2 5 3\n4 1 3\n5 1 1\n")
+        w = StringIO.StringIO()
+        pfd_solve(r, w)
+        self.assert_(w.getvalue() == "1 5 3 2 4\n")
 
 # ----
 # main

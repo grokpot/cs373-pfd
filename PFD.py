@@ -104,14 +104,17 @@ def pfd_build_output(vertex_list, independent_list):
 
         # Find the lowest task in independent_list (the lowest task with no/satisfied predecessors)
         task = -1
-        for index, status in enumerate(independent_list):
+        # TODO: use start parameter for enumerate to bypass 0 index
+        independent_index = -1
+        for status in independent_list:
+            independent_index += 1
             if status == INDEPENDENT:
-                task = index
+                task = independent_index
                 output_list.append(task)
-                independent_list[index] = ADDED
+                independent_list[independent_index] = ADDED
 
                 # Iterate through vertex list and remove dependency from other tasks' predecessors lists
-                for index, pred_list in enumerate(vertex_list):
+                for vertex_index, pred_list in enumerate(vertex_list):
                     try:
                         # Remove the dependency
                         pred_list.remove(task)
@@ -119,11 +122,12 @@ def pfd_build_output(vertex_list, independent_list):
                         # If the task has no more predecessors
                         if pred_list == []:
                             # Add it to the independent list & sort
-                            independent_list[index] = 1
-
+                            independent_list[vertex_index] = 1
+                            independent_index = 0
                     except Exception:
                         pass
-        if DEPENDENT not in independent_list:
+
+        if DEPENDENT not in independent_list and INDEPENDENT not in independent_list:
             cleared = True
 
     return output_list
@@ -157,58 +161,58 @@ def pfd_build_output(vertex_list, independent_list):
 # -------------
 # collatz_eval2
 # -------------
-def pfd_eval():
-
-    # example list
-    m = [[], [2, 4], [0, 4], [2], [0]]
-
-    # initialize array
-    mSize = [0]*(len(m))
-
-    a = ""
-
-    i =0
-    while(i<len(m)):
-        mSize[i] = len(m[i])
-        i+=1
-
-
-    x = 0
-    j = 0
-    while(j<len(m)):
-        temp = len(m)
-        nextN = len(m)
-        i = 0
-        while(i<len(m)):
-            x = 0
-
-            if(mSize[i]==0):
-                temp = i
-
-                if(temp<nextN):
-                    print temp
-                    nextN = temp
-            i+=1
-
-            if(i == len(m)):
-
-
-                while(x < len(m)):
-
-                    #print nextN
-                    if((nextN) in m[x]):
-                        #print nextN
-                        mSize[x] -= 1
-                    x+=1
-
-        j+=1
-        mSize[nextN] -=1
-        print mSize
-
-
-        a += str(nextN)
-
-    print a
+#def pfd_eval():
+#
+#    # example list
+#    m = [[], [2, 4], [0, 4], [2], [0]]
+#
+#    # initialize array
+#    mSize = [0]*(len(m))
+#
+#    a = ""
+#
+#    i =0
+#    while(i<len(m)):
+#        mSize[i] = len(m[i])
+#        i+=1
+#
+#
+#    x = 0
+#    j = 0
+#    while(j<len(m)):
+#        temp = len(m)
+#        nextN = len(m)
+#        i = 0
+#        while(i<len(m)):
+#            x = 0
+#
+#            if(mSize[i]==0):
+#                temp = i
+#
+#                if(temp<nextN):
+#                    print temp
+#                    nextN = temp
+#            i+=1
+#
+#            if(i == len(m)):
+#
+#
+#                while(x < len(m)):
+#
+#                    #print nextN
+#                    if((nextN) in m[x]):
+#                        #print nextN
+#                        mSize[x] -= 1
+#                    x+=1
+#
+#        j+=1
+#        mSize[nextN] -=1
+#        print mSize
+#
+#
+#        a += str(nextN)
+#
+#    print a
 
 
 
@@ -223,17 +227,18 @@ def pfd_print (w, output_list) :
     output_list is the list of dependencies in order of when they should be loaded
     """
     if len(output_list) > 0:
-        for dependency in range(0, len(output_list)-1):
-            w.write(str( output_list[dependency] ) + " ")
+        # Because of n being 1..n, we don't output the 0 index
+        for task in range(1, len(output_list)-1):
+            w.write(str( output_list[task] ) + " ")
         w.write( str( output_list[len(output_list)-1] ) )
     else:
         w.write("")
 
 # -------------
-# PFD_solve
+# pfd_solve
 # -------------
 
-def PFD_solve (r, w) :
+def pfd_solve (r, w) :
     """
     read header, read lines, eval, print loop
     r is a reader
@@ -241,7 +246,7 @@ def PFD_solve (r, w) :
     """
 
     # Read metadata (number of tasks and number of lines)
-    metadata    = []
+    metadata    = [-1, -1]
     pfd_read_metadata(r, metadata)
     num_tasks   = -1
     num_lines   = -1
@@ -256,14 +261,15 @@ def PFD_solve (r, w) :
     assert num_lines > 0
 
     # Instantiate our graph lists
-    vertex_list     = []*num_tasks
-    indpendent_list = [0]*num_tasks
+    vertex_list     = [[]]*(num_tasks + 1)
+    independent_list = [0]*(num_tasks + 1)
 
     # Read vertex data and build graph
-    for line in num_lines:
+    for line in range(0, num_lines):
         pfd_read_line(r, vertex_list)
 
-    # TODO: call build_independent
+    # Instantiate the independent list
+    pfd_build_independents(vertex_list, independent_list)
 
     # Build output
     output_list = pfd_build_output(vertex_list, independent_list)
