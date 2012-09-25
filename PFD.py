@@ -90,6 +90,10 @@ def pfd_build_output(vertex_list, independent_list):
     Step 2: The next vertex is a node with all predecessors satisfied
     Step 3: Upon a choice of verticies, choose the one with a smaller value (number)
     """
+    ADDED       = -1
+    DEPENDENT   = 0
+    INDEPENDENT = 1
+
 
     output_list = []
 
@@ -98,32 +102,31 @@ def pfd_build_output(vertex_list, independent_list):
     while cleared == False:
 
         # Find the lowest vertex in independent_list (the lowest task with no/satisfied predecessors)
-        independent = 0
-        while( (independent_list[independent] != 0) and (cleared == False) ):
-            independent += 1
-            if independent >= (len(independent_list)-1):
-                cleared = True
+        independent = -1
+        for index, vertex in enumerate(independent_list):
+            if vertex == INDEPENDENT:
+                independent = index
+                output_list.append(independent)
+                independent_list[index] = ADDED
 
-        # If we're still processing, append the vertex to output and
-        if cleared == False:
-            output_list.append(independent)
+                # Iterate through vertex list and remove dependency from other tasks' predecessors lists
+                for index, pred_list in enumerate(vertex_list):
+                    try:
+                        # Remove the dependency
+                        pred_list.remove(vertex)
 
-            # Iterate through vertex list and remove dependency from task
-            for index, pred_list in enumerate(vertex_list):
-                try:
-                    # Remove the dependency
-                    pred_list.remove(vertex)
+                        # If the task has no more predecessors
+                        if pred_list == []:
+                            # Add it to the independent list & sort
+                            independent_list[vertex] = 1
+                            independent_list.sort()
 
-                    # If the task has no more predecessors
-                    if len(pred_list) == 0:
-#                        # Set vertex_list value to 0
-#                        vertex_list[index] = 0
-                        # Add it to the independent list & sort
-                        independent_list[vertex] = 1
-                        independent_list.sort()
+                    except Exception:
+                        pass
+        if DEPENDENT not in independent_list:
+            cleared = True
 
-                except Exception:
-                    pass
+    return output_list
 
 
 
