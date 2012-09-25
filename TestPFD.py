@@ -21,7 +21,7 @@ To test the program:
 import StringIO
 import unittest
 
-from PFD import pfd_read_metadata, pfd_read_lines, pfd_print
+from PFD import pfd_read_metadata, pfd_read_line, pfd_print, pfd_build_independents, pfd_build_output
 
 # -----------
 # TestPFD
@@ -72,35 +72,60 @@ class TestPFD (unittest.TestCase) :
 
 
     # ----
-    # read_lines
+    # read_line
     # ----
-    def test_read_lines1 (self) :
-        a = [0, 0, 0, 0, 0, 0]
+    def test_read_line1 (self) :
+        vertex_list = [[], [], [], [], [], []]
         r = StringIO.StringIO("3 2 1 5\n")
-        b = pfd_read_lines(r, a)
+        b = pfd_read_line(r, vertex_list)
         self.assert_(b    == True)
-        self.assert_(a[3] == [1,5])
+        self.assert_(vertex_list[3] == [1,5])
 
-    def test_read_lines2 (self) :
-        a = [0, 0, 0, 0, 0, 0]
+    def test_read_line2 (self) :
+        vertex_list = [[], [], [], [], [], []]
         r = StringIO.StringIO("2 2 5 3\n")
-        b = pfd_read_lines(r, a)
+        b = pfd_read_line(r, vertex_list)
         self.assert_(b    == True)
-        self.assert_(a[2] == [3,5])
+        self.assert_(vertex_list[2] == [3,5])
 
-    def test_read_lines3 (self) :
-        a = [0, 0, 0, 0, 0, 0]
+    def test_read_line3 (self) :
+        vertex_list = [[], [], [], [], [], []]
         r = StringIO.StringIO("4 1 3\n")
-        b = pfd_read_lines(r, a)
+        b = pfd_read_line(r, vertex_list)
         self.assert_(b    == True)
-        self.assert_(a[4] == [3])
+        self.assert_(vertex_list[4] == [3])
 
-    def test_read_lines4 (self) :
-        a = [0, 0, 0, 0, 0, 0]
+    def test_read_line4 (self) :
+        vertex_list = [[], [], [], [], [], []]
         r = StringIO.StringIO("5 1 1\n")
-        b = pfd_read_lines(r, a)
+        b = pfd_read_line(r, vertex_list)
         self.assert_(b    == True)
-        self.assert_(a[5] == [1])
+        self.assert_(vertex_list[5] == [1])
+
+
+    # ----
+    # build_independents
+    # ----
+    def test_build_independents1 (self) :
+        vertex_list = [[], [], [], [], [], []]
+        independent_list    = [0, 0, 0, 0, 0, 0]
+        pfd_build_independents(vertex_list, independent_list)
+        self.assert_(vertex_list        == [[], [], [], [], [], []])
+        self.assert_(independent_list   == [1, 1, 1, 1, 1, 1])
+
+    def test_build_independents2 (self) :
+        vertex_list = [[1, 2], [], [], [1], [], [1, 2, 3]]
+        independent_list    = [0, 0, 0, 0, 0, 0]
+        pfd_build_independents(vertex_list, independent_list)
+        self.assert_(vertex_list        == [[1, 2], [], [], [1], [], [1, 2, 3]])
+        self.assert_(independent_list   == [0, 1, 1, 0, 1, 0])
+
+    def test_build_independents3 (self) :
+        vertex_list = [[1,2], [1,2,3], [1,2,3,4], [1,2,3,4,5], [1,2,3,4,5], [1,2,3]]
+        independent_list    = [1, 1, 1, 1, 1, 1]
+        pfd_build_independents(vertex_list, independent_list)
+        self.assert_(vertex_list        == [[1,2], [1,2,3], [1,2,3,4], [1,2,3,4,5], [1,2,3,4,5], [1,2,3]])
+        self.assert_(independent_list   == [1, 1, 1, 1, 1, 1])
 
 
     # ----
