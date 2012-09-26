@@ -1,0 +1,83 @@
+commit 226afb775aa61ff1851f1959c4bb5f35e88c6668
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Wed Sep 26 01:46:30 2012 -0500
+
+    Added documentation for PFD. Closes #20.
+
+commit 82c9ccc3ccbbec458a2b8ece54228dd638df9da7
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Wed Sep 26 01:41:37 2012 -0500
+
+    Added acceptance tests. Fixed #17.
+
+commit e7cd6dfd0d4bd851c995cd733e72ecdde40b81ac
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Wed Sep 26 00:30:59 2012 -0500
+
+    Added feature for multiple inputs in PFD.py, keeping SpherePFD for single input.
+
+commit 984293fa4a47320f769456bd3f494a1e113750f4
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Wed Sep 26 00:04:40 2012 -0500
+
+    Unit tests complete and submitted to TA's repo. Fixes #16.
+
+commit 217c609425d0aa0f234edde92e08f17543bd1706
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Wed Sep 26 00:00:58 2012 -0500
+
+    Added assertions to all methods and properly commented. Fixes #18
+
+commit 2dd44f9131c63c6be404eb6ad929b8aedad9bbfc
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Tue Sep 25 21:06:23 2012 -0500
+
+    SpherePFD.py added. It works! Fixes #11
+
+commit 47f8c9c6e63a795e5c8a478b73e0c2255dbdacc5
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Tue Sep 25 18:46:28 2012 -0500
+
+    All tests pass, submitting to sphere. Fixes #12, Fixes #13.
+
+commit 0de5669f52d92f93d622f509ffb48b8e7750d697
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Tue Sep 25 18:23:46 2012 -0500
+
+    Modifying build_output, almost to a completion point.
+
+commit 75b26152fa5672c864996f2a408b476967a592ac
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Tue Sep 25 17:33:45 2012 -0500
+
+    Squashed bugs in processing the graph and wrote tests for build_output.
+
+commit 02c75e5ef6477c3f600d08015d24c76a0110fab7
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Tue Sep 25 17:02:30 2012 -0500
+
+    make some intermediate changes. Updated test for pfd_build_output
+
+commit 7089e67fb6a2a5f0e2085422a384ea5f0a84f76c
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Tue Sep 25 14:39:36 2012 -0500
+
+    Implemented independent_list and wrote tests for it. Fixes #9, Fixes #10.
+
+commit b8da5b4756a089e97c54a1eb7857a19ee6f943d8
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Wed Sep 19 22:10:46 2012 -0500
+
+    Wrote the print method for output and correspondings tests that all pass. Fixes #8, Fixes #7.
+
+commit 32bb437ac79f468809529dc47bbd00a8a3c2823f
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Wed Sep 19 21:44:53 2012 -0500
+
+    Implemented read_metadata and read_lines, including tests for both. Fixes #3, Fixes #4, Fixes #5, Fixes #6
+
+commit 0c1bdda6158f9a1db1d81c64911cd019522023e2
+Author: Ryan Prater <ryanprater@utexas.edu>
+Date:   Wed Sep 19 19:05:38 2012 -0500
+
+    Added readme and initializing repository. Fixes #1, Fixes#2.
