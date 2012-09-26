@@ -18,37 +18,43 @@ example vertex_list:
 
 
 # ------------
-# pfd_read_metadata
+# PFD_read_metadata
 # ------------
-def pfd_read_metadata (r, metadata) :
+def PFD_read_metadata (r, metadata) :
     """
     reads the metadata header (line 0) from PFD input, indicating number of tasks and lines
     r is a reader
-    a is an array of int
-    a[0] will be num_tasks
-    a[1] will be num_lines
+    metadata is an array of int
+    metadata[0] will be num_tasks
+    metadata[1] will be num_lines
     """
+    assert len(metadata) > 1
+
     input = r.readline()
     if input == "" :
         return False
     split_input = input.split()
     metadata[0] = int(split_input[0])
     metadata[1] = int(split_input[1])
+
     assert input[0] > -1
     assert input[1] > -1
     return True
 
 
 # ------------
-# pfd_read_line
+# PFD_read_line
 # ------------
-def pfd_read_line (r, vertex_list) :
+def PFD_read_line (r, vertex_list) :
     """
     reads a line of vertex (dependency) input
     r is a reader
-    a is an array of ints, our graph vertex array
+    vertex_list is an array of ints, our graph vertex array
     The vertex array is ordered as an adjacency list such that access is constant time and each value is a list of dependencies
     """
+
+    assert len(vertex_list) > -1
+
     input = r.readline()
     if input == "" :
         return False
@@ -70,8 +76,12 @@ def pfd_read_line (r, vertex_list) :
     return True
 
 
-def pfd_build_independents(vertex_list, independent_list):
-    # TODO: write method description
+def PFD_build_independents(vertex_list, independent_list):
+    """
+    Builds the initial independent list, which indicates which tasks have no predecessors (or are satisfied)
+    vertex_list is a list of tasks and their predecessors
+    independent_list is a list of tasks with no predecessors
+    """
     assert len(vertex_list) > 0
     assert len(independent_list) > 0
 
@@ -80,8 +90,10 @@ def pfd_build_independents(vertex_list, independent_list):
         if vertex == []:
             independent_list[index] = 1
 
+    assert 1 in independent_list
 
-def pfd_build_output(vertex_list, independent_list):
+
+def PFD_build_output(vertex_list, independent_list):
     """
     Processes the task graph and returns a list of tasks which can be loaded in sequential order according to their dependencies.
     vertex_list is a list of tasks and their predecessors
@@ -95,6 +107,10 @@ def pfd_build_output(vertex_list, independent_list):
     DEPENDENT   = 0
     INDEPENDENT = 1
 
+    # make sure we have a starting point
+    assert 1 in independent_list
+    assert len(vertex_list) > 0
+    assert len(independent_list) == len(vertex_list)
 
     output_list = []
 
@@ -104,14 +120,9 @@ def pfd_build_output(vertex_list, independent_list):
 
         # Find the lowest task in independent_list (the lowest task with no/satisfied predecessors)
         task = -1
-
         try:
             # Finds the lowest independent index
             task = independent_list.index(INDEPENDENT)
-# TODO: use start parameter for enumerate to bypass 0 index
-#        for independent_index, status in enumerate(independent_list):
-#            if status == INDEPENDENT:
-#                task = independent_index
             output_list.append(task)
             independent_list[task] = ADDED
 
@@ -125,110 +136,33 @@ def pfd_build_output(vertex_list, independent_list):
                     if pred_list == []:
                         # Add it to the independent list & sort
                         independent_list[vertex_index] = 1
+                # Fails to here if task isn't in pred_list and can't remove
                 except Exception:
                     pass
+        # Fails here if independent_list doesn't contain a satisfied task (they're all added)
         except:
-            # TODO: do something here
             pass
         if DEPENDENT not in independent_list and INDEPENDENT not in independent_list:
             cleared = True
 
+    assert cleared == True
+
     return output_list
 
 
-
-# ------------
-# collatz_eval
-# ------------
-
-#def collatz_eval (i, j) :
-#    """
-#    i is the beginning of the range, inclusive
-#    j is the end       of the range, inclusive
-#    return the max cycle length in the range [i, j]
-#    """
-#    # pre-condition assertions
-#    assert i > 0
-#    assert j > 0
-#    # Make sure we're getting ints
-#    assert isinstance(i, int)
-#    assert isinstance(j, int)
-#
-#
-#    # post-condition assertions
-#    assert max_cycle_length > 0
-#
-#    return max_cycle_length
-
-
 # -------------
-# collatz_eval2
-# -------------
-#def pfd_eval():
-#
-#    # example list
-#    m = [[], [2, 4], [0, 4], [2], [0]]
-#
-#    # initialize array
-#    mSize = [0]*(len(m))
-#
-#    a = ""
-#
-#    i =0
-#    while(i<len(m)):
-#        mSize[i] = len(m[i])
-#        i+=1
-#
-#
-#    x = 0
-#    j = 0
-#    while(j<len(m)):
-#        temp = len(m)
-#        nextN = len(m)
-#        i = 0
-#        while(i<len(m)):
-#            x = 0
-#
-#            if(mSize[i]==0):
-#                temp = i
-#
-#                if(temp<nextN):
-#                    print temp
-#                    nextN = temp
-#            i+=1
-#
-#            if(i == len(m)):
-#
-#
-#                while(x < len(m)):
-#
-#                    #print nextN
-#                    if((nextN) in m[x]):
-#                        #print nextN
-#                        mSize[x] -= 1
-#                    x+=1
-#
-#        j+=1
-#        mSize[nextN] -=1
-#        print mSize
-#
-#
-#        a += str(nextN)
-#
-#    print a
-
-
-
-# -------------
-# pfd_print
+# PFD_print
 # -------------
 
-def pfd_print (w, output_list) :
+def PFD_print (w, output_list) :
     """
     prints the values of output_list
     w is a writer
     output_list is the list of dependencies in order of when they should be loaded
     """
+
+    assert isinstance(output_list, list)
+
     if len(output_list) > 0:
         # Because of n being 1..n, we don't output the 0 index
         for task in range(1, len(output_list)-1):
@@ -238,10 +172,10 @@ def pfd_print (w, output_list) :
         w.write("")
 
 # -------------
-# pfd_solve
+# PFD_solve
 # -------------
 
-def pfd_solve (r, w) :
+def PFD_solve (r, w) :
     """
     read header, read lines, eval, print loop
     r is a reader
@@ -250,7 +184,7 @@ def pfd_solve (r, w) :
 
     # Read metadata (number of tasks and number of lines)
     metadata    = [-1, -1]
-    pfd_read_metadata(r, metadata)
+    PFD_read_metadata(r, metadata)
     num_tasks   = -1
     num_lines   = -1
     try:
@@ -260,8 +194,8 @@ def pfd_solve (r, w) :
         print "There was a problem reading the metadata of your input."
 
     # Assert that we received valid input
-    assert num_tasks > 0
-    assert num_lines > 0
+    assert num_tasks > -1
+    assert num_lines > -1
 
     # Instantiate our graph lists
     vertex_list     = [[]]*(num_tasks + 1)
@@ -269,14 +203,14 @@ def pfd_solve (r, w) :
 
     # Read vertex data and build graph
     for line in range(0, num_lines):
-        pfd_read_line(r, vertex_list)
+        PFD_read_line(r, vertex_list)
 
     # Instantiate the independent list
-    pfd_build_independents(vertex_list, independent_list)
+    PFD_build_independents(vertex_list, independent_list)
 
     # Build output
-    output_list = pfd_build_output(vertex_list, independent_list)
+    output_list = PFD_build_output(vertex_list, independent_list)
 
     # Print output
-    pfd_print(w, output_list)
+    PFD_print(w, output_list)
 
