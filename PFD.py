@@ -2,9 +2,12 @@
 
 # ---------------------------
 # Name  : Ryan J. Prater
+#         Jose A Fernandez Jr
 # EID   : rp22566
+#         jaf2568
 # CSID  : rprater
-# CS373 - Downing - Project #2
+#         josef
+# CS373 - Downing - Project #2 - PFD
 # ---------------------------
 
 
