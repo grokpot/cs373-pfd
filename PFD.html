@@ -1,0 +1,50 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module PFD</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>PFD</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/ryan/Dev/Code/software-engr/project2-pfd/PFD.py">/home/ryan/Dev/Code/software-engr/project2-pfd/PFD.py</a></font></td></tr></table>
+    <p><tt>example&nbsp;independent&nbsp;list:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1,&nbsp;0,&nbsp;1,&nbsp;1,&nbsp;0,&nbsp;0]<br>
+&nbsp;<br>
+example&nbsp;vertex_list:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;[],&nbsp;[1,&nbsp;5,&nbsp;7],&nbsp;[],&nbsp;[],&nbsp;[3,&nbsp;6],&nbsp;[1,&nbsp;3,&nbsp;5,&nbsp;6]&nbsp;]</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-PFD_build_independents"><strong>PFD_build_independents</strong></a>(vertex_list, independent_list)</dt><dd><tt>Builds&nbsp;the&nbsp;initial&nbsp;independent&nbsp;list,&nbsp;which&nbsp;indicates&nbsp;which&nbsp;tasks&nbsp;have&nbsp;no&nbsp;predecessors&nbsp;(or&nbsp;are&nbsp;satisfied)<br>
+vertex_list&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;tasks&nbsp;and&nbsp;their&nbsp;predecessors<br>
+independent_list&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;tasks&nbsp;with&nbsp;no&nbsp;predecessors</tt></dd></dl>
+ <dl><dt><a name="-PFD_build_output"><strong>PFD_build_output</strong></a>(vertex_list, independent_list)</dt><dd><tt>Processes&nbsp;the&nbsp;task&nbsp;graph&nbsp;and&nbsp;returns&nbsp;a&nbsp;list&nbsp;of&nbsp;tasks&nbsp;which&nbsp;can&nbsp;be&nbsp;loaded&nbsp;in&nbsp;sequential&nbsp;order&nbsp;according&nbsp;to&nbsp;their&nbsp;dependencies.<br>
+vertex_list&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;tasks&nbsp;and&nbsp;their&nbsp;predecessors<br>
+independent_list&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;tasks&nbsp;with&nbsp;no&nbsp;predecessors<br>
+&nbsp;<br>
+Step&nbsp;1:&nbsp;Find&nbsp;a&nbsp;vertex&nbsp;with&nbsp;no&nbsp;predecessors<br>
+Step&nbsp;2:&nbsp;The&nbsp;next&nbsp;vertex&nbsp;is&nbsp;a&nbsp;node&nbsp;with&nbsp;all&nbsp;predecessors&nbsp;satisfied<br>
+Step&nbsp;3:&nbsp;Upon&nbsp;a&nbsp;choice&nbsp;of&nbsp;verticies,&nbsp;choose&nbsp;the&nbsp;one&nbsp;with&nbsp;a&nbsp;smaller&nbsp;value&nbsp;(number)</tt></dd></dl>
+ <dl><dt><a name="-PFD_print"><strong>PFD_print</strong></a>(w, output_list)</dt><dd><tt>prints&nbsp;the&nbsp;values&nbsp;of&nbsp;output_list<br>
+w&nbsp;is&nbsp;a&nbsp;writer<br>
+output_list&nbsp;is&nbsp;the&nbsp;list&nbsp;of&nbsp;dependencies&nbsp;in&nbsp;order&nbsp;of&nbsp;when&nbsp;they&nbsp;should&nbsp;be&nbsp;loaded</tt></dd></dl>
+ <dl><dt><a name="-PFD_read_line"><strong>PFD_read_line</strong></a>(r, vertex_list)</dt><dd><tt>reads&nbsp;a&nbsp;line&nbsp;of&nbsp;vertex&nbsp;(dependency)&nbsp;input<br>
+r&nbsp;is&nbsp;a&nbsp;reader<br>
+vertex_list&nbsp;is&nbsp;an&nbsp;array&nbsp;of&nbsp;ints,&nbsp;our&nbsp;graph&nbsp;vertex&nbsp;array<br>
+The&nbsp;vertex&nbsp;array&nbsp;is&nbsp;ordered&nbsp;as&nbsp;an&nbsp;adjacency&nbsp;list&nbsp;such&nbsp;that&nbsp;access&nbsp;is&nbsp;constant&nbsp;time&nbsp;and&nbsp;each&nbsp;value&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;dependencies</tt></dd></dl>
+ <dl><dt><a name="-PFD_read_metadata"><strong>PFD_read_metadata</strong></a>(r, metadata)</dt><dd><tt>reads&nbsp;the&nbsp;metadata&nbsp;header&nbsp;(line&nbsp;0)&nbsp;from&nbsp;PFD&nbsp;input,&nbsp;indicating&nbsp;number&nbsp;of&nbsp;tasks&nbsp;and&nbsp;lines<br>
+r&nbsp;is&nbsp;a&nbsp;reader<br>
+metadata&nbsp;is&nbsp;an&nbsp;array&nbsp;of&nbsp;int<br>
+metadata[0]&nbsp;will&nbsp;be&nbsp;num_tasks<br>
+metadata[1]&nbsp;will&nbsp;be&nbsp;num_lines</tt></dd></dl>
+ <dl><dt><a name="-PFD_solve"><strong>PFD_solve</strong></a>(r, w)</dt><dd><tt>read&nbsp;header,&nbsp;read&nbsp;lines,&nbsp;eval,&nbsp;print&nbsp;loop<br>
+r&nbsp;is&nbsp;a&nbsp;reader<br>
+w&nbsp;is&nbsp;a&nbsp;writer</tt></dd></dl>
+</td></tr></table>
+</body></html>

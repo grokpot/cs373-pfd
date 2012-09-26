@@ -13,7 +13,7 @@
 
 """
 example independent list:
-        [0, 1, 0, 0, 1, 1, 0]
+        [1, 0, 1, 1, 0, 0]
 
 example vertex_list:
         [ [], [1, 5, 7], [], [], [3, 6], [1, 3, 5, 6] ]
