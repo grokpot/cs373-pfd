@@ -173,6 +173,8 @@ def PFD_print (w, output_list) :
         w.write( str( output_list[len(output_list)-1] ) )
     else:
         w.write("")
+    w.write("\n")
+    w.write("\n")
 
 # -------------
 # PFD_solve
@@ -185,35 +187,41 @@ def PFD_solve (r, w) :
     w is a writer
     """
 
-    # Read metadata (number of tasks and number of lines)
-    metadata    = [-1, -1]
-    PFD_read_metadata(r, metadata)
-    num_tasks   = -1
-    num_lines   = -1
-    try:
-        num_tasks = metadata[0]
-        num_lines = metadata[1]
-    except Exception:
-        print "There was a problem reading the metadata of your input."
+    keepreading = True
 
-    # Assert that we received valid input
-    assert num_tasks > -1
-    assert num_lines > -1
+    while(keepreading):
+        # Read metadata (number of tasks and number of lines)
+        metadata    = [-1, -1]
+        PFD_read_metadata(r, metadata)
+        num_tasks   = -1
+        num_lines   = -1
+        try:
+            num_tasks = metadata[0]
+            num_lines = metadata[1]
+        except Exception:
+            print "There was a problem reading the metadata of your input."
 
-    # Instantiate our graph lists
-    vertex_list     = [[]]*(num_tasks + 1)
-    independent_list = [0]*(num_tasks + 1)
+        # Assert that we received valid input
+        assert num_tasks > -1
+        assert num_lines > -1
 
-    # Read vertex data and build graph
-    for line in range(0, num_lines):
-        PFD_read_line(r, vertex_list)
+        # Instantiate our graph lists
+        vertex_list     = [[]]*(num_tasks + 1)
+        independent_list = [0]*(num_tasks + 1)
 
-    # Instantiate the independent list
-    PFD_build_independents(vertex_list, independent_list)
+        # Read vertex data and build graph
+        for line in range(0, num_lines):
+            PFD_read_line(r, vertex_list)
 
-    # Build output
-    output_list = PFD_build_output(vertex_list, independent_list)
+        # Instantiate the independent list
+        PFD_build_independents(vertex_list, independent_list)
 
-    # Print output
-    PFD_print(w, output_list)
+        # Build output
+        output_list = PFD_build_output(vertex_list, independent_list)
+
+        # Print output
+        PFD_print(w, output_list)
+
+        if r.readline() != "\n":
+            keepreading = False
 

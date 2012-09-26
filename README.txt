@@ -9,14 +9,14 @@ Last Name: Prater
 EID: rp22566
 E-mail: ryanprater@utexas.edu
 Estimated number of hours: 7
-Actual    number of hours:
+Actual    number of hours: 7
 
-Partner First Name:
-Partner Last Name:
-Partner EID:
-Partner E-mail:
-Partner Estimated number of hours:
-Partner Actual    number of hours:
+Partner First Name: Jose A
+Partner Last Name: Fernandez Jr
+Partner EID: jaf2568
+Partner E-mail: fernandez6@sbcglobal.net
+Partner Estimated number of hours: 4
+Partner Actual    number of hours: 7
 
 Turnin CS Username: rprater
 GitHub ID: ryanprater
