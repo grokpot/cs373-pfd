@@ -8,6 +8,7 @@
 # ---------------------------
 
 
+
 """
 example independent list:
         [0, 1, 0, 0, 1, 1, 0]
@@ -16,6 +17,8 @@ example vertex_list:
         [ [], [1, 5, 7], [], [], [3, 6], [1, 3, 5, 6] ]
 """
 
+
+import sys
 
 # ------------
 # pfd_read_metadata
@@ -108,10 +111,10 @@ def pfd_build_output(vertex_list, independent_list):
         try:
             # Finds the lowest independent index
             task = independent_list.index(INDEPENDENT)
-# TODO: use start parameter for enumerate to bypass 0 index
-#        for independent_index, status in enumerate(independent_list):
-#            if status == INDEPENDENT:
-#                task = independent_index
+            # TODO: use start parameter for enumerate to bypass 0 index
+            #        for independent_index, status in enumerate(independent_list):
+            #            if status == INDEPENDENT:
+            #                task = independent_index
             output_list.append(task)
             independent_list[task] = ADDED
 
@@ -134,89 +137,6 @@ def pfd_build_output(vertex_list, independent_list):
             cleared = True
 
     return output_list
-
-
-
-# ------------
-# collatz_eval
-# ------------
-
-#def collatz_eval (i, j) :
-#    """
-#    i is the beginning of the range, inclusive
-#    j is the end       of the range, inclusive
-#    return the max cycle length in the range [i, j]
-#    """
-#    # pre-condition assertions
-#    assert i > 0
-#    assert j > 0
-#    # Make sure we're getting ints
-#    assert isinstance(i, int)
-#    assert isinstance(j, int)
-#
-#
-#    # post-condition assertions
-#    assert max_cycle_length > 0
-#
-#    return max_cycle_length
-
-
-# -------------
-# collatz_eval2
-# -------------
-#def pfd_eval():
-#
-#    # example list
-#    m = [[], [2, 4], [0, 4], [2], [0]]
-#
-#    # initialize array
-#    mSize = [0]*(len(m))
-#
-#    a = ""
-#
-#    i =0
-#    while(i<len(m)):
-#        mSize[i] = len(m[i])
-#        i+=1
-#
-#
-#    x = 0
-#    j = 0
-#    while(j<len(m)):
-#        temp = len(m)
-#        nextN = len(m)
-#        i = 0
-#        while(i<len(m)):
-#            x = 0
-#
-#            if(mSize[i]==0):
-#                temp = i
-#
-#                if(temp<nextN):
-#                    print temp
-#                    nextN = temp
-#            i+=1
-#
-#            if(i == len(m)):
-#
-#
-#                while(x < len(m)):
-#
-#                    #print nextN
-#                    if((nextN) in m[x]):
-#                        #print nextN
-#                        mSize[x] -= 1
-#                    x+=1
-#
-#        j+=1
-#        mSize[nextN] -=1
-#        print mSize
-#
-#
-#        a += str(nextN)
-#
-#    print a
-
 
 
 # -------------
@@ -279,4 +199,7 @@ def pfd_solve (r, w) :
 
     # Print output
     pfd_print(w, output_list)
+
+pfd_solve(sys.stdin, sys.stdout)
+
 
